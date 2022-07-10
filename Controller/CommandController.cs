@@ -138,6 +138,7 @@ namespace MyAxiaMarket1.Controller
 
 
                     };
+                    
                     var result = await _repository.UpdateCommandeAsync(cmd, id);
 
                     if (result.Success)
@@ -156,5 +157,41 @@ namespace MyAxiaMarket1.Controller
             }
         }
 
+        [Authorize]
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<GetOneResult<Commande>>> UpdateLivraisonCommand(int id, string etatlivraison,string modifiedby)
+        {
+            var res = new GetOneResult<Commande>() { Success = false };
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var cmd = new Commande()
+                    {
+
+                        modifiedBy = modifiedby,
+                        status = etatlivraison,
+                        lastModified = DateTime.Now
+
+
+                    };
+
+                    var result = await _repository.UpdatestatusAsync(cmd, id);
+
+                    if (result.Success)
+                    {
+                        res.Success = true;
+                        res.Message = "data updated !";
+                    }
+                }
+                return res;
+            }
+            catch (Exception e)
+            {
+                res.Success = false;
+                res.Message = "error occured !" + e.Message + e.StackTrace;
+                return res;
+            }
+        }
     }
 }

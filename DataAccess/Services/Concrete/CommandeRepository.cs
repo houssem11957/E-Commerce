@@ -341,17 +341,20 @@ namespace MyAxiaMarket1.DataAccess.Services.Concrete
             return result;
         }
 
-        public async Task<GetOneResult<Commande>> UpdatestatusAsync(string status, int id)
+        public async Task<GetOneResult<Commande>> UpdatestatusAsync(Commande Commande, int id)
         {
             var result = new GetOneResult<Commande>();
-            if (id > 0 && ((string.IsNullOrEmpty(status))))
+            if (id > 0 && ((string.IsNullOrEmpty(Commande.status))))
             {
                 try
                 {
                     var res = await _Table.FindAsync(id);
                     if (res != null)
                     {
-                        res.status = status;
+                        res.status = Commande.status;
+                        res.CommandId = res.CommandId;
+                        res.lastModified = Commande.lastModified;
+                        res.modifiedBy = Commande.modifiedBy;
                         var sv = await _context.SaveChangesAsync();
                         if (sv > 0)
                         {

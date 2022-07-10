@@ -21,7 +21,7 @@ public interface ICommandeRepository : IRepository<Commande>
         //done
         Task<GetOneResult<Commande>> UpdateIsActivedAsync(bool IsActive, int id);
         // done
-        Task<GetOneResult<Commande>> UpdatestatusAsync(string status, int id);
+        Task<GetOneResult<Commande>> UpdatestatusAsync(Commande Commande, int id);
         //done
         Task<GetManyResult<Commande>> FindInDescriptionAsync(string description);
 
