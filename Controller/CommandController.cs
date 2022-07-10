@@ -19,10 +19,13 @@ namespace MyAxiaMarket1.Controller
     {
         private readonly ICommandeRepository _repository;
         private readonly IPanierRepository _panier_repository;
-        public CommandController(ICommandeRepository repository, IPanierRepository panier_repository)
+        private readonly IModeDePaiementRepository _mdp_repository;
+
+        public CommandController(IModeDePaiementRepository mdp_repository,ICommandeRepository repository, IPanierRepository panier_repository)
         {
             _repository = repository;
             _panier_repository = panier_repository;
+            _mdp_repository = mdp_repository;
         }
         [Authorize(Policy = "AdminPrivilege")]
         [HttpGet("GetListCommand")]
@@ -62,7 +65,7 @@ namespace MyAxiaMarket1.Controller
 
             try
             {
-                if (ModelState.IsValid && await CommandeSpecification.Specification(_panier_repository,cvm.panierId))
+                if (ModelState.IsValid && await CommandeSpecification.Specification(_panier_repository,cvm.panierId,_mdp_repository,cvm.modeDpaiement))
                 {
                     var artcle = new Commande()
                     {

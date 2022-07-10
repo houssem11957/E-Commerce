@@ -15,7 +15,7 @@ namespace MyAxiaMarket1.ViewModels
         public string commandRefrence { get; set; }
         public string Description { get; set; }
         public string status { get; set; }
-
+        public int modeDpaiement { get; set; }
         public int boutiqueId { get; set; }
         public int panierId { get; set; }
         public string clientId { get; set; }

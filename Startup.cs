@@ -84,6 +84,7 @@ namespace MyAxiaMarket
             services.AddTransient<IContratRepository, ContratRepository>();
             services.AddTransient<IFactureRepository, FactureRepository>();
             services.AddTransient<IPanierRepository, PanierRepository>();
+            services.AddTransient<IModeDePaiementRepository, ModeDePaiementRepository>();
 
             services.AddAuthentication(x =>
             {

@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MyAxiaMarket.Models;
-using MyAxiaMarket1.CustomSpecificationPattern;
 using MyAxiaMarket1.DataAccess.Services.Abstract;
 using MyAxiaMarket1.Models;
 using MyAxiaMarket1.Response;
-using MyAxiaMarket1.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,41 +13,30 @@ namespace MyAxiaMarket1.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ContratController : ControllerBase
+    public class MDPController : ControllerBase
     {
-        private readonly IContratRepository _repository;
-        private readonly UserManager<Personne> _userManager;
-        public ContratController(UserManager<Personne> userManager , IContratRepository repository)
+        IModeDePaiementRepository _repository;
+        
+
+        public MDPController(IModeDePaiementRepository repository)
         {
             _repository = repository;
-            _userManager = userManager;
         }
         [Authorize(Policy = "AdminPrivilege")]
-        [HttpPost("InsertContrat")]
-        public async Task<ActionResult<GetOneResult<Contrat>>> AddContrat(ContratVM contrat)
+        [HttpPost("InsertModeDePaiement")]
+        public async Task<ActionResult<GetOneResult<ModeDePaiement>>> AddModeDePaiement(ModeDePaiement ModeDePaiement)
         {
-            var result = new GetOneResult<Contrat>();
-            if (
-                ModelState.IsValid 
-                && await GlobalSpecifications.Specification(_userManager, contrat.fournisseurId)
-                && await GlobalSpecifications.Specification(_userManager, contrat.AdminId)
-                )
+            var result = new GetOneResult<ModeDePaiement>();
+            if ( ModelState.IsValid  )
             {
                 try
                 {
-                    var ctr = new Contrat()
+                    var ctr = new ModeDePaiement()
                     {
-                        Description = contrat.Description,
-                        modifiedBy = contrat.modifiedBy,
-                        status = contrat.status,
-                        fournisseurId = contrat.fournisseurId,
-                        startDate = contrat.startDate,
-                        clauses = contrat.clauses,
-                        AdminId = contrat.AdminId,
-                        valide = contrat.valide,
-                        EndDate = contrat.EndDate,
-
-                        
+                        RefModeDepaiement = ModeDePaiement.RefModeDepaiement,
+                        description = ModeDePaiement.description,
+                        modifiedBy = ModeDePaiement.modifiedBy,
+                        valide = ModeDePaiement.valide,
                     };
                     var res = await _repository.InsertOneAsync(ctr);
                     if (res.Success)
@@ -72,10 +57,10 @@ namespace MyAxiaMarket1.Controller
         }
         
         [Authorize(Policy = "AdminPrivilege")]
-        [HttpGet("GetListContrat")]
-        public async Task<ActionResult<GetManyResult<Contrat>>> GetListContrat()
+        [HttpGet("GetListModeDePaiement")]
+        public async Task<ActionResult<GetManyResult<ModeDePaiement>>> GetListModeDePaiement()
         {
-            var result = new GetManyResult<Contrat>() { Success = false };
+            var result = new GetManyResult<ModeDePaiement>() { Success = false };
             try
             {
 
@@ -89,12 +74,12 @@ namespace MyAxiaMarket1.Controller
         }
         [Authorize(Policy = "AdminPrivilege")]
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetOneResult<Contrat>>> GetContratById([FromQuery] int id)
+        public async Task<ActionResult<GetOneResult<ModeDePaiement>>> GetModeDePaiementById([FromQuery] int id)
         {
-            var restoreturn = new GetOneResult<Contrat>() { Success = false };
+            var restoreturn = new GetOneResult<ModeDePaiement>() { Success = false };
             try
             {
-                return await _repository.GetContratByIdAsync(id);
+                return await _repository.GetModeDePaiementByIdAsync(id);
 
             }
             catch (Exception e)
@@ -105,9 +90,9 @@ namespace MyAxiaMarket1.Controller
         }
         [Authorize(Policy = "AdminPrivilege")]
         [HttpDelete("{id}")]
-        public async Task<GetOneResult<Contrat>> DeleteFacture(int id)
+        public async Task<GetOneResult<ModeDePaiement>> DeleteModeDePaiement(int id)
         {
-            var res = new GetOneResult<Contrat>() { Success = false };
+            var res = new GetOneResult<ModeDePaiement>() { Success = false };
             try
             {
                 if (id > 0)
@@ -130,29 +115,21 @@ namespace MyAxiaMarket1.Controller
         }
         [Authorize(Policy = "AdminPrivilege")]
         [HttpPut("{id}")]
-        public async Task<ActionResult<GetOneResult<Contrat>>> UpdateContrat(int id, ContratVM contrat)
+        public async Task<ActionResult<GetOneResult<ModeDePaiement>>> UpdateModeDePaiement(int id, ModeDePaiement ModeDePaiement)
         {
-            var res = new GetOneResult<Contrat>() { Success = false };
+            var res = new GetOneResult<ModeDePaiement>() { Success = false };
             try
             {
-                if (ModelState.IsValid
-                     && await GlobalSpecifications.Specification(_userManager, contrat.fournisseurId)
-                     && await GlobalSpecifications.Specification(_userManager, contrat.AdminId)
-                    )
+                if (ModelState.IsValid)
                 {
-                    var fctr = new Contrat()
+                    var fctr = new ModeDePaiement()
                     {
-                        Description = contrat.Description,
-                        modifiedBy = contrat.modifiedBy,
-                        status = contrat.status,
-                        fournisseurId = contrat.fournisseurId,
-                        startDate = contrat.startDate,
-                        clauses = contrat.clauses,
-                        AdminId = contrat.AdminId,
-                        valide = contrat.valide,
-                        EndDate = contrat.EndDate,
+                        RefModeDepaiement = ModeDePaiement.RefModeDepaiement,
+                        description = ModeDePaiement.description,
+                        modifiedBy = ModeDePaiement.modifiedBy,
+                        valide = ModeDePaiement.valide,
                     };
-                    var result = await _repository.UpdateContratAsync(fctr, id);
+                    var result = await _repository.UpdateModeDePaiementAsync(fctr, id);
 
                     if (result.Success)
                     {

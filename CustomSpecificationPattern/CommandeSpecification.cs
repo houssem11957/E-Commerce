@@ -8,12 +8,13 @@ namespace MyAxiaMarket1.CustomSpecificationPattern
 {
     public static class CommandeSpecification
     {
-        public async static Task<bool> Specification(IPanierRepository _repository, int panierId)
+        public async static Task<bool> Specification(IPanierRepository _repository, int panierId, IModeDePaiementRepository _mdprepositoty ,int mdpId)
         {
             try
             {
                 var res = await _repository.GetPanierByIdAsync(panierId);
-                return res.Success;
+                var res1 = await _mdprepositoty.GetModeDePaiementByIdAsync(mdpId);
+                return res.Success && res1.Success;
             }
             catch (Exception e)
             {

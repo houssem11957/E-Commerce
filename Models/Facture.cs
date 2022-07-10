@@ -23,7 +23,6 @@ namespace MyAxiaMarket1.Models
         [Required]
         public decimal total { get; set; }
         public decimal unitprice { get; set; }
-        public int CommandId { get; set; }
         public int quantity { get; set; }
         public decimal taxes { get; set; }
         public string currency { get; set; }
