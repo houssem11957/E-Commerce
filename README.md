@@ -9,57 +9,28 @@ PSZ ERP New Architecture Repository including the docker images reposiotry and c
 *docker demon needed to run the scripts*
 
 # How to use this Repo
+- Build the docker  images (same directory as docker compose file)
 
 ```sh
-gem uninstall colorls
+docker compose build 
 ```
-
-
-
-Man pages have been added. Checkout `man colorls`.
-
-### Flags
-
-- With `-1` : Lists one entry per line
-
- 
-
-- With `-a` (or) `--all` : Does not ignore entries starting with '.'
-
- 
-- With `-A` (or) `--almost-all` : Does not ignore entries starting with '.', except `./` and `../`
-
- 
-
-- With `-d` (or) `--dirs` : Shows only directories
-
- 
-
-- With `-f` (or) `--files` : Shows only files
-
- 
-
-- With `-h` (or) `--help` : Prints a very helpful help menu
-
-  
-
-
-
-### Combination of flags
-
-
-
-
-# Updating
-
-
-
-# Uninstallation
-
+- Login to the Gitlab registery  (use gitlab credentials)
 
 ```sh
-gem uninstall colorls
+docker login registry.gitlab.com
 ```
+- push the docker images to the Gitlab registery  
+
+```sh
+docker compose push
+```
+
+- pull the docker images from the Gitlab registery  
+
+```sh
+docker compose pull 
+```
+
 
 
 
