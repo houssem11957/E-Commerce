@@ -3,7 +3,7 @@
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c-sharp.svg)](http://forthebadge.com)
 
-PSZ ERP New Architecture Repository including the docker images reposiotry and compose YML file. 
+PSZ ERP New Architecture Repository including the source files , docker images  and compose YML file. 
 
 
 *docker demon needed to run the scripts*
